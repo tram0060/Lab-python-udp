@@ -4,13 +4,14 @@ from pathlib import Path
 
 HOST = "127.0.0.1"
 PORT = 12350
+BLOCK_SIZE = 1024
 
 msg = Path("data/message.txt").read_text(encoding="utf-8").encode("utf-8")
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
     s.sendto(msg, (HOST, PORT))
 
-    data, _ = s.recvfrom(1024)
+    data, _ = s.recvfrom(BLOCK_SIZE)
     print("Réponse du serveur :", data.decode("utf-8"))
 #PARTIE4
 import socket
@@ -18,13 +19,14 @@ import hashlib
 
 HOST = "127.0.0.1"
 PORT = 12346
+BLOCK_SIZE = 2048
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
     s.bind((HOST, PORT))
     print(f"Serveur UDP sur {HOST}:{PORT}")
 
     while True:
-        data, addr = s.recvfrom(2048)
+        data, addr = s.recvfrom(BLOCK_SIZE)
 
         try:
             # Séparer message et hash
